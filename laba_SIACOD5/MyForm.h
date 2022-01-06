@@ -107,6 +107,7 @@ namespace labaSIACOD5 {
 		int tmp;
 		int tmpY = 0;
 		int* reb = new int;
+		int clonreb = 0;
 		array<bool, 2>^ rebro = gcnew array<bool, 2>(60, 60);
 		array<System::Windows::Forms::Button^>^ button_mas = gcnew array<System::Windows::Forms::Button^>(N);
 		//	array<bool, 2>^ massive = gcnew array<bool, 2>(60, 60);
@@ -117,7 +118,9 @@ namespace labaSIACOD5 {
 		Button^ a = (Button^)sender;
 		count++;
 		if (count % 2 == 0) {
+			(*reb) = clonreb;
 			(*reb)++;
+			clonreb = (*reb);
 			Graphics^ g = this->CreateGraphics();
 			g->DrawLine(gcnew Pen(Color::Black), tmpX + 20, tmpY + 10, Convert::ToInt32(a->Location.X) + 20, Convert::ToInt32(a->Location.Y) + 10);
 			//this->Invalidate();
@@ -149,6 +152,10 @@ namespace labaSIACOD5 {
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		bool chot = true;
 		bool massiv[60][60];
+		int masint[50];
+		array<String^>^ str = gcnew array<String^>(50);
+		for (int i = 0; i < 50; i++)
+			masint[i] = -1;
 		for (int i = 0; i < (*reb); ++i) {
 			for (int j = 0; j < (*reb); ++j)
 				massiv[i][j] = false;
@@ -175,30 +182,29 @@ namespace labaSIACOD5 {
 		}
 		if (chot) {
 			label1->Text = (Convert::ToString(lst[Convert::ToInt32(textBox1->Text)].obhod(reb, massiv)));
-			//Graphics^ g = this->CreateGraphics();
-			//for (int i = 0; i < reb; i++) {
-			//	for (int j = 0; j < reb; j++) {
-			//		if (rebro[i, j]) {
-			//			g->DrawLine(gcnew Pen(Color::Black), button_mas[i]->Location.X + 20, button_mas[i]->Location.Y + 10, button_mas[j]->Location.X + 20, button_mas[j]->Location.Y + 10);
-			//		}
-			//	}
-			//}
-			//for (int i = 0; i < reb; i++) {
-			//	for (int j = 0; j < reb; j++) {
-			//		//	for (int k = 0; k < reb; k++) {
-			//		if (massive[i, j]) {
-			//			Threading::Thread::Sleep(1000);
-			//			g->DrawLine(gcnew Pen(Color::Red), button_mas[i]->Location.X + 20, button_mas[i]->Location.Y + 10, button_mas[j]->Location.X + 20, button_mas[j]->Location.Y + 10);
-			//		}
-
-			//	}
-			//}
-			//for (int i = 0; i < 10; ++i) {
-			//	for (int j = 0; j < 10; ++j) {
-			//		//	for (int k = 0; j < 10; ++j)
-			//		massive[i, j] = false;
-			//	}
-			//}
+			Graphics^ g = this->CreateGraphics();
+			for (int i = 0; i < clonreb; i++) {
+				for (int j = 0; j < clonreb; j++) {
+					if (rebro[i, j]) {
+						g->DrawLine(gcnew Pen(Color::Black), button_mas[i]->Location.X + 20, button_mas[i]->Location.Y + 10, button_mas[j]->Location.X + 20, button_mas[j]->Location.Y + 10);
+					}
+				}
+			}
+			str = (label1->Text)->Split(' ');
+			for (int i = 0; str[i] != ""; i++) {
+				masint[i] = Convert::ToInt32(str[i]);
+			}
+			for (int i = 0; i < clonreb; ++i) {
+						Threading::Thread::Sleep(1000);
+						g->DrawLine(gcnew Pen(Color::Red), button_mas[masint[i]]->Location.X + 20, button_mas[masint[i]]->Location.Y + 10, button_mas[masint[i+1]]->Location.X + 20, button_mas[masint[i+1]]->Location.Y + 10);
+				
+			}
+			for (int i = 0; i < 20; ++i) {
+				for (int j = 0; j < 20; ++j) {
+					//	for (int k = 0; j < 10; ++j)
+					massiv[i][j] = false;
+				}
+			}
 		}
 	}
 	

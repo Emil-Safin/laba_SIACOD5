@@ -70,28 +70,28 @@ public:
 		return s;
 	}
 
-	String^ obhod(int reb, bool visit[60][60]) {
+	String^ obhod(int *reb, bool visit[60][60]) {
 		String^ s;
 		String^ a;
-		if (reb >= 0) s += this->num + " ";
+		if ((*reb) >= 0) s += this->num + " ";
 		for (int i = 0; arr[i] != nullptr; ++i) {
 			if (!visit[this->num][arr[i]->num]) {
 				visit[this->num][arr[i]->num] = true;
 				visit[arr[i]->num][this->num] = true;
-				reb--;
+				(*reb)--;
 				a = arr[i]->obhod(reb, visit);
+				if ((*reb) > 0) {
+					visit[this->num][arr[i]->num] = false;
+					visit[arr[i]->num][this->num] = false;
+					(*reb)++;
+					//s = "\0";
+				}
+				else {
+					//s += this->num + " ";
+					s += a + " ";
+					return s;
+				}		    
 			}
-			if (reb > 0) {
-				visit[this->num][arr[i]->num] = false;
-				visit[arr[i]->num][this->num] = false;
-				reb++;
-				//s = "\0";
-			}
-			else {
-				s += this->num + " ";
-				s += a + " ";
-				return s;
-			}		    
 		}
 		return s;
 	}

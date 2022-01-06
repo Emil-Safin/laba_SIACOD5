@@ -106,7 +106,7 @@ namespace labaSIACOD5 {
 		int tmpX = 0;
 		int tmp;
 		int tmpY = 0;
-		int reb = 0;
+		int* reb = new int;
 		array<bool, 2>^ rebro = gcnew array<bool, 2>(60, 60);
 		array<System::Windows::Forms::Button^>^ button_mas = gcnew array<System::Windows::Forms::Button^>(N);
 		//	array<bool, 2>^ massive = gcnew array<bool, 2>(60, 60);
@@ -117,7 +117,7 @@ namespace labaSIACOD5 {
 		Button^ a = (Button^)sender;
 		count++;
 		if (count % 2 == 0) {
-			reb++;
+			(*reb)++;
 			Graphics^ g = this->CreateGraphics();
 			g->DrawLine(gcnew Pen(Color::Black), tmpX + 20, tmpY + 10, Convert::ToInt32(a->Location.X) + 20, Convert::ToInt32(a->Location.Y) + 10);
 			//this->Invalidate();
@@ -149,9 +149,9 @@ namespace labaSIACOD5 {
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		bool chot = true;
 		bool massiv[60][60];
-		for (int i = 0; i < reb; ++i) {
-			for (int j = 0; j < reb; ++j)
-				massiv[i][ j] = false;
+		for (int i = 0; i < (*reb); ++i) {
+			for (int j = 0; j < (*reb); ++j)
+				massiv[i][j] = false;
 		}
 		for (int i = 0; i < j; i++) {
 			if ((lst[i].getArrNum()) % 2 != 0) {
@@ -203,6 +203,7 @@ namespace labaSIACOD5 {
 	}
 	
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+		(*reb) = 0;
 	}
 };
 }
